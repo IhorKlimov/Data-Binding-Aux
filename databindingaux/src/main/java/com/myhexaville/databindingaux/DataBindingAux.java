@@ -21,19 +21,25 @@ import android.graphics.drawable.Drawable;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.RequestListener;
+
+import static com.bumptech.glide.load.engine.DiskCacheStrategy.RESULT;
 
 /**
  * Data Binding Adapters
  */
-public class Adapters {
+public class DataBindingAux {
+
+    private static DiskCacheStrategy sCacheStrategy = RESULT;
 
     @BindingAdapter("app:imageUrl")
     public static void loadImage(ImageView v, String imgUrl) {
 
         Glide.with(v.getContext())
                 .load(imgUrl)
+                .diskCacheStrategy(sCacheStrategy)
                 .into(v);
     }
 
@@ -42,6 +48,7 @@ public class Adapters {
 
         Glide.with(v.getContext())
                 .load(imgUrl)
+                .diskCacheStrategy(sCacheStrategy)
                 .placeholder(placeholder)
                 .into(v);
     }
@@ -53,6 +60,7 @@ public class Adapters {
 
         Glide.with(view.getContext())
                 .load(imgUrl)
+                .diskCacheStrategy(sCacheStrategy)
                 .listener(listener)
                 .into(view);
     }
@@ -64,8 +72,14 @@ public class Adapters {
 
         Glide.with(view.getContext())
                 .load(imgUrl)
+                .diskCacheStrategy(sCacheStrategy)
                 .placeholder(placeholder)
                 .listener(listener)
                 .into(view);
     }
+
+    public static void setGlobalCacheStrategy(DiskCacheStrategy strategy) {
+        sCacheStrategy = strategy;
+    }
 }
+
